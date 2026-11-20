@@ -1,56 +1,92 @@
-# Welcome to your Expo app 👋
+# Poke Go
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile Pokémon browser built with Expo, React Native, and TypeScript. Explore Pokémon from PokéAPI and open a detail sheet with a larger sprite and a background that matches the Pokémon's primary type.
 
-## Get started
+## Features
 
-1. Install dependencies
+- Browse the first 20 Pokémon from PokéAPI.
+- View each Pokémon's name, primary type, and front and back sprites.
+- Identify types through color-coded cards.
+- Tap a card to open a detail sheet with a larger front sprite and a type-colored background.
 
-   ```bash
-   npm install
-   ```
+## Built With
 
-2. Start the app
+- Expo SDK 58
+- React Native and React
+- TypeScript
+- Expo Router for file-based navigation
+- [PokéAPI](https://pokeapi.co/) for Pokémon data and sprite URLs
 
-   ```bash
-   npx expo start
-   ```
+## Getting Started
 
-In the output, you'll find options to open the app in a
+### Requirements
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- A Node.js version supported by Expo SDK 58 and npm
+- A compatible Expo Go installation on a physical device, or a configured Android emulator or iOS simulator
+- Internet access to load Pokémon data and images
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
+### Installation
 
 ```bash
-npm run reset-project
+git clone https://github.com/ValeAvilan/poke-go.git
+cd poke-go
+npm ci
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+### Run the App
 
-### Other setup steps
+```bash
+npm start
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+Use the terminal's QR code to open the app in a compatible Expo Go installation, or select an available emulator or simulator.
 
-## Learn more
+You can also use these scripts:
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm run android
+npm run ios
+npm run web
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+These commands start the development server for the selected platform. Native sheet presentation may differ from the web experience.
 
-## Join the community
+## Project Structure
 
-Join our community of developers creating universal apps.
+```text
+src/
+  app/
+    _layout.tsx    # Stack navigation and detail sheet options
+    index.tsx      # Pokémon fetching, type colors, and card list
+    details.tsx    # Selected Pokémon's name, type, image, and background
+assets/           # App icons and splash assets
+app.json          # Expo configuration
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## How It Works
+
+1. The home screen requests 20 Pokémon from `https://pokeapi.co/api/v2/pokemon?limit=20`.
+2. It fetches each Pokémon's details in parallel using `Promise.all`.
+3. It stores the names, sprites, and types in React state and renders the cards.
+4. The first type determines each card's background color.
+5. Selecting a card navigates to `/details`, passing the name, primary type, front sprite URL, and color as route parameters.
+6. The details screen reads those values with `useLocalSearchParams` and displays the selected Pokémon.
+
+## Development Checks
+
+```bash
+npx tsc --noEmit
+npm run lint
+```
+
+The lint script uses Expo's ESLint setup. If ESLint is not configured yet, the first run may install dependencies and create a configuration file.
+
+## Current Scope
+
+The app currently loads a fixed list of 20 Pokémon. Search, pagination, offline storage, and on-screen loading and error states are not implemented. Pokémon with multiple types are displayed using their first type.
+
+## License
+
+This project is distributed under the [MIT License](LICENSE).
+
+Pokémon names and imagery belong to their respective owners. Pokémon data is provided by PokéAPI.
